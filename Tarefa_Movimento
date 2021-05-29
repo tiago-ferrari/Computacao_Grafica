@@ -1,0 +1,114 @@
+//Tarefa 2
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <GL/glut.h>
+
+#define janela_altura 400
+#define janela_largura 600
+
+float rotacao = 1;
+float escala = 1;
+float translacaox = 1;
+float translacaoy = 1;
+
+void keyboard(unsigned char key, int x, int y);
+void resize(GLsizei w, GLsizei h);
+void display(void);
+void desenhar(void);
+
+int main(int arcg, char** arcv)
+{
+	glutInit(&arcg, arcv);
+	
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+
+	glutInitWindowSize(janela_altura, janela_largura);
+	glutInitWindowPosition(100, 100);
+	glutCreateWindow("Glut test");
+
+	glutReshapeFunc(&resize);
+	glutDisplayFunc(display);
+	glutKeyboardFunc(&keyboard);
+	glutMainLoop();
+
+	return EXIT_SUCCESS;
+
+}
+
+void keyboard(unsigned char key, int x, int y)
+{
+	printf("\ntecla %c\n", key);
+	printf("\n1 - Esquerda | 2 - Direita   Escolha:");
+	switch (key) {
+
+    //TECLAS 1 2 3 5
+		case '1':
+			translacaox -= 4.0;
+			printf("o valor da rotacao eh 2.%f", translacaox);
+			break;
+		case '2':
+			translacaoy -= 4.0;
+			printf("o valor do escala eh 2.%f", translacaoy);
+			break;
+		case '3':
+			
+			translacaox += 4.0;
+			printf("o valor da rotacao eh 2.%f", translacaox);
+			break;
+		case '5':
+			translacaoy += 4.0;
+			printf("o valor do escala eh 2.%f", translacaoy);
+			break;
+		}
+
+	glutPostRedisplay();
+}
+
+void resize(GLsizei w, GLsizei h)
+{
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	gluOrtho2D(0, janela_altura, 0, janela_largura);
+
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void display() {
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glTranslatef(janela_altura / 2, janela_largura / 2, 0);
+	glViewport(0, 0, janela_altura, janela_largura);
+
+	desenhar();
+
+	glFlush();
+}
+
+void desenhar() {
+
+
+	glBegin(GL_TRIANGLES);
+		glColor3f(1.0, 0.0, 0.0);
+		glVertex2f(-100, -100);
+		glVertex2f(0, 0);
+		glVertex2f(100, -100);
+	glEnd();
+
+	glTranslatef(translacaox, translacaoy, 0);
+
+	glBegin(GL_QUADS);
+		glColor3f(1.0, 1.0, 0.0);
+		glVertex2f(-30, 30);
+		glVertex2f(-10, 30);
+		glVertex2f(-10, 50);
+		glVertex2f(-30, 50);
+	glEnd();
+
+	glTranslatef(1, 1, 0);
+}
