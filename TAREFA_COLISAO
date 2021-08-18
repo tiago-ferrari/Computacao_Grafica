@@ -90,7 +90,7 @@ void display() {
 
 	float contato = sqrt((cordx * cordx) + (cordy * cordy));
 	if (contato <= 100) {
-		printf("trans: %f", contato);
+		printf("contato: %f", contato);
 		glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
 	}
 	else {
