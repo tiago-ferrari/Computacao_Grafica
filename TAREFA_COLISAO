@@ -1,0 +1,143 @@
+
+//Tarefa 2
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <GL/glut.h>
+#include <math.h>
+
+#define janela_altura 400
+#define janela_largura 600
+
+float rotacao = 1;
+float escala = 1;
+float translacaox = 1;
+float translacaoy = 1;
+float cordx = 1, cordy = 1;
+float trans = 110;
+
+void keyboard(unsigned char key, int x, int y);
+void resize(GLsizei w, GLsizei h);
+void display(void);
+void desenhar(void);
+
+int main(int arcg, char** arcv)
+{
+	glutInit(&arcg, arcv);
+
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+
+	glutInitWindowSize(janela_altura, janela_largura);
+	glutInitWindowPosition(100, 100);
+	glutCreateWindow("Glut test");
+
+	glutReshapeFunc(&resize);
+	glutDisplayFunc(display);
+	glutKeyboardFunc(&keyboard);
+	glutMainLoop();
+
+	return EXIT_SUCCESS;
+
+}
+
+void keyboard(unsigned char key, int x, int y)
+{
+	printf("\ntecla %c\n", key);
+	printf("\nUSE TECLADO NUMERICO :");
+	switch (key) {
+
+
+	case '1':
+		cordx--;
+		translacaox -= 4.0;
+		printf("o valor da rotacao eh 2.%f", translacaox);
+		break;
+	case '2':
+		cordy--;
+		translacaoy -= 4.0;
+		printf("o valor do escala eh 2.%f", translacaoy);
+		break;
+	case '3':
+		cordx++;
+		translacaox += 4.0;
+		printf("o valor da rotacao eh 2.%f", translacaox);
+		break;
+	case '5':
+		cordy++;
+		translacaoy += 4.0;
+		
+		printf("o valor do escala eh 2.%f", translacaoy);
+		break;
+	}
+
+	glutPostRedisplay();
+}
+
+void resize(GLsizei w, GLsizei h)
+{
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	gluOrtho2D(0, janela_altura, 0, janela_largura);
+
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void display() {
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	//glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+	//glClear(GL_COLOR_BUFFER_BIT);
+	float trans = sqrt((cordx * cordx) + (cordy * cordy));
+	if (trans <= 100) {
+		printf("contato");
+		glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+	}
+	else {
+		glClearColor(0.0f, 1.0f, 1.0f, 0.0f);
+	}
+	glClear(GL_COLOR_BUFFER_BIT);
+	glTranslatef(janela_altura / 2, janela_largura / 2, 0);
+	glViewport(0, 0, janela_altura, janela_largura);
+
+	desenhar();
+
+	glFlush();
+}
+
+void desenhar() {
+
+	GLfloat circ_pnt = 100;
+	GLfloat ang, raioX = 50.0f, raioY = 50.0f, ang2, raioX2 = 50.0f, raioY2 = 50.0f;
+
+
+	glBegin(GL_POLYGON);
+	glColor3f(1.0, 0.0, 0.0);
+	for (int i = 0; i < circ_pnt; i++)
+	{
+		ang2 = (2 * 3.14 * i) / circ_pnt;
+		glVertex2f(cos(ang2) * raioX2, sin(ang2) * raioY2);
+		printf("%f    %f\n", cos(ang2) * raioX2, sin(ang2) * raioY2);
+
+	}
+	glEnd();
+
+	glTranslatef(translacaox, translacaoy, 0);
+
+
+	glBegin(GL_POLYGON);
+	glColor3f(1.0, 1.0, 0.0);
+	for (int i = 0; i < circ_pnt; i++)
+	{
+		ang = (2 * 3.14 * i) / circ_pnt;
+		glVertex2f(cos(ang) * raioX, sin(ang) * raioY);
+		printf("%f    %f\n", cos(ang) * raioX, sin(ang) * raioY);
+
+	}
+	glEnd();
+
+	glTranslatef(1, 1, 0);
+}
