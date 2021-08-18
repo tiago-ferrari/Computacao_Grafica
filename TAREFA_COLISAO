@@ -1,5 +1,6 @@
 
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <GL/glut.h>
@@ -28,7 +29,7 @@ int main(int arcg, char** arcv)
 
 	glutInitWindowSize(janela_altura, janela_largura);
 	glutInitWindowPosition(100, 100);
-	glutCreateWindow("Glut test");
+	glutCreateWindow("TAREFA COLISAO CIRCULOS");
 
 	glutReshapeFunc(&resize);
 	glutDisplayFunc(display);
@@ -138,3 +139,4 @@ void desenhar() {
 
 	glTranslatef(1, 1, 0);
 }
+
