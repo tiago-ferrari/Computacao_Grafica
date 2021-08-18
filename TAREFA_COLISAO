@@ -1,20 +1,19 @@
 
-//Tarefa 2
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <GL/glut.h>
 #include <math.h>
 
-#define janela_altura 400
-#define janela_largura 600
+#define janela_altura 600
+#define janela_largura 400
 
 float rotacao = 1;
 float escala = 1;
 float translacaox = 1;
 float translacaoy = 1;
 float cordx = 1, cordy = 1;
-float trans = 110;
+float contato = 10;
 
 void keyboard(unsigned char key, int x, int y);
 void resize(GLsizei w, GLsizei h);
@@ -49,22 +48,22 @@ void keyboard(unsigned char key, int x, int y)
 
 	case '1':
 		cordx--;
-		translacaox -= 4.0;
+		translacaox -= 1.0;
 		printf("o valor da rotacao eh 2.%f", translacaox);
 		break;
 	case '2':
 		cordy--;
-		translacaoy -= 4.0;
+		translacaoy -= 1.0;
 		printf("o valor do escala eh 2.%f", translacaoy);
 		break;
 	case '3':
 		cordx++;
-		translacaox += 4.0;
+		translacaox += 1.0;
 		printf("o valor da rotacao eh 2.%f", translacaox);
 		break;
 	case '5':
 		cordy++;
-		translacaoy += 4.0;
+		translacaoy += 1.0;
 		
 		printf("o valor do escala eh 2.%f", translacaoy);
 		break;
@@ -89,15 +88,13 @@ void display() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	//glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
-	//glClear(GL_COLOR_BUFFER_BIT);
-	float trans = sqrt((cordx * cordx) + (cordy * cordy));
-	if (trans <= 100) {
-		printf("contato");
+	float contato = sqrt((cordx * cordx) + (cordy * cordy));
+	if (contato <= 100) {
+		printf("trans: %f", contato);
 		glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
 	}
 	else {
-		glClearColor(0.0f, 1.0f, 1.0f, 0.0f);
+		glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
 	}
 	glClear(GL_COLOR_BUFFER_BIT);
 	glTranslatef(janela_altura / 2, janela_largura / 2, 0);
@@ -118,9 +115,9 @@ void desenhar() {
 	glColor3f(1.0, 0.0, 0.0);
 	for (int i = 0; i < circ_pnt; i++)
 	{
-		ang2 = (2 * 3.14 * i) / circ_pnt;
-		glVertex2f(cos(ang2) * raioX2, sin(ang2) * raioY2);
-		printf("%f    %f\n", cos(ang2) * raioX2, sin(ang2) * raioY2);
+		ang = (2 * 3.14 * i) / circ_pnt;
+		glVertex2f(cos(ang) * raioX2, sin(ang) * raioY2);
+		//printf("%f    %f\n", cos(ang) * raioX2, sin(ang) * raioY2);
 
 	}
 	glEnd();
@@ -134,7 +131,7 @@ void desenhar() {
 	{
 		ang = (2 * 3.14 * i) / circ_pnt;
 		glVertex2f(cos(ang) * raioX, sin(ang) * raioY);
-		printf("%f    %f\n", cos(ang) * raioX, sin(ang) * raioY);
+		//printf("%f    %f\n", cos(ang) * raioX, sin(ang) * raioY);
 
 	}
 	glEnd();
