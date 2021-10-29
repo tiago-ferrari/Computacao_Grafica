@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct sCaminho{
+	
+	int estado;
+	char fita;
+	int destino;
+	char escrita;
+	int movimento;
+	
+}Caminho;
+
+
+int main(){
+	
+	Caminho caminhos[4];
+	char fita[10];
+	int i;
+	fita[0] = '0';
+	fita[9] = '0';
+	int cont =0;
+	int estado = 0;
+	int pos = 1;
+	
+	for(i = 1;i < 9; i++){
+		printf("digite o valor para fita[%i]: \n",i);
+		scanf(" %c",&fita[i]);
+	}
+	
+	printf("FITA INICIAL: \n");
+	
+	for(i = 0;i < 10; i++){
+		printf( "%c",fita[i]);
+		
+	}
+	
+	
+	caminhos[0].estado = 0;
+	caminhos[0].fita = 1;
+	caminhos[0].destino = 1;
+	caminhos[0].escrita = 'A';
+	caminhos[0].movimento = 1;
+	
+	caminhos[1].estado = 0;
+	caminhos[1].fita = 2;
+	caminhos[1].destino = 0;
+	caminhos[1].escrita = 'B';
+	caminhos[1].movimento = 1;
+	
+	caminhos[2].estado = 1;
+	caminhos[2].fita = 2;
+	caminhos[2].destino = 1;
+	caminhos[2].escrita = 'B';
+	caminhos[2].movimento = 1;
+	
+	caminhos[3].estado = 1;
+	caminhos[3].fita = 0;
+	caminhos[3].destino = 2;
+	caminhos[3].escrita = 0;
+	caminhos[3].movimento = 0;
+	
+	while(estado != 2){
+		cont++;
+		
+		for(i =0; i < 4;i++){
+			if(caminhos[i].estado == estado && caminhos[i].fita == fita[pos]){
+				estado = caminhos[i].destino;
+				fita[pos] = caminhos[i].escrita;
+				pos = pos + caminhos[i].movimento;
+			}
+			if(cont == 100){
+				printf("deu ruim OMEGALUL");
+				break;
+			}
+		}
+		
+	}
+	
+	printf("\nFITA FINAL\n");
+	
+	for(i = 0;i < 10; i++){
+		printf("%c  ",fita[i]);
+		
+	}
+	
+	
+}
+
